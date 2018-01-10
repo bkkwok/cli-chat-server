@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    #container {
+      max-width: 500px;
+      height: 100vh;
+      border: 5px solid black;
+      font-size: 20px;
+      margin: 0 auto;
+    }
+
+    #chatlog {
+      height: 80%;
+      padding: 20px;
+      border-bottom: 5px solid black;
+    }
+
+    #chatbox {
+      height: 20%;
+      padding: 20px;
+    }
+
+    #chatbox input {
+      border: 1px solid gray;
+      border-radius: 10px;
+      width: 50%;
+      height: 30%;
+      font-size: 1em;
+      outline: none;
+      padding-left: 5px;
+    }
+
+    @media (min-height: 700px) {
+      #container {
+        height: 700px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+  <div id="chatlog">
+  </div>
+    <div id="chatbox">
+      <input autofocus type="text" />
+    </div>
+  </div>
+</body>
+</html>
