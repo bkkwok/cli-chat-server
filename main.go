@@ -1,37 +1,49 @@
 package main
 
 import (
-  "log"
-  "net/http"
-  "fmt"
-  "justaprank"
-  "flag"
+	"flag"
+	"fmt"
+	"github.com/gorilla/websocket"
+	"log"
+	"net/http"
 )
 
-var (
-  env *string
-  port *int
-)
+var addr = flag.String("addr", ":8080", "http service address")
 
-func init() {
-  fmt.Println("init")
-  env = flag.String("env", "development", "a string")
-  port = flag.Int("port", 3000, "an int")
+var upgrader = websocket.Upgrader{
+	ReadBufferSize:  1024,
+	WriteBufferSize: 1024,
+}
+
+func promptUsername(conn *websocket.Conn) {
+	for {
+		err := conn.WriteMessage(websocket.TextMessage, []byte(
+			"Please enter a username: \n"))
+		if err != nil {
+			log.Println(err)
+		}
+
+		_, p, err := conn.ReadMessage()
+		if err != nil {
+			log.Println(err)
+			return
+		}
+
+		fmt.Println(string(p))
+	}
 }
 
 func main() {
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		conn, err := upgrader.Upgrade(w, r, nil)
+		if err != nil {
+			log.Println(err)
+			return
+		}
 
-  fs := http.FileServer(http.Dir("../public"))
-  http.Handle("/", fs)
+		promptUsername(conn)
+	})
 
-  p := justaprank.Prank{"benjamin"}
-
-  fmt.Println(p)
-
-  flag.Parse()
-  fmt.Println("env: ", *env)
-  fmt.Println("port: ", *port)
-
-  log.Fatal(http.ListenAndServe(":8000", nil))
+	log.Fatal(http.ListenAndServe(*addr, nil))
 
 }
