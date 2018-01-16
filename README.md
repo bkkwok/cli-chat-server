@@ -1,4 +1,4 @@
-# go-chat
+# cli-chat
 simple chat system made with golang
 
 Simple as in, no rooms do not persist if empty.
