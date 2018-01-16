@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/gorilla/websocket"
+  "github.com/bkkwok/go-cli-chat/event"
 	"log"
 	"net/http"
 )
